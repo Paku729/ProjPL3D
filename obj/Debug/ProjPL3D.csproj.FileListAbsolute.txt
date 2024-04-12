@@ -1,0 +1,15 @@
+E:\ProjPL3D\bin\Debug\ProjPL3D.exe.config
+E:\ProjPL3D\bin\Debug\ProjPL3D.exe
+E:\ProjPL3D\bin\Debug\ProjPL3D.pdb
+E:\ProjPL3D\obj\Debug\ProjPL3D.csproj.AssemblyReference.cache
+E:\ProjPL3D\obj\Debug\MainWindow.g.cs
+E:\ProjPL3D\obj\Debug\App.g.cs
+E:\ProjPL3D\obj\Debug\ProjPL3D_MarkupCompile.cache
+E:\ProjPL3D\obj\Debug\ProjPL3D_MarkupCompile.lref
+E:\ProjPL3D\obj\Debug\MainWindow.baml
+E:\ProjPL3D\obj\Debug\ProjPL3D.g.resources
+E:\ProjPL3D\obj\Debug\ProjPL3D.Properties.Resources.resources
+E:\ProjPL3D\obj\Debug\ProjPL3D.csproj.GenerateResource.cache
+E:\ProjPL3D\obj\Debug\ProjPL3D.csproj.CoreCompileInputs.cache
+E:\ProjPL3D\obj\Debug\ProjPL3D.exe
+E:\ProjPL3D\obj\Debug\ProjPL3D.pdb
