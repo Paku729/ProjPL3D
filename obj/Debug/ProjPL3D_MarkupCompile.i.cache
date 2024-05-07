@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-E:\ProjPL3D\obj\Debug\
+D:\Study\ProjPL3D\obj\Debug\
 ProjPL3D
 none
 false
 DEBUG;TRACE
-E:\ProjPL3D\App.xaml
-11151548125
+D:\Study\ProjPL3D\App.xaml
+3380192257
 
-61434861427
-13-1505183044
-MainWindow.xaml;
+81948588043
+13-1310406943
+LoginPage.xaml;MainWindow.xaml;RegistrationPage.xaml;
 
 True
 
