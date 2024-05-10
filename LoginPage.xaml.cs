@@ -51,10 +51,10 @@ namespace ProjPL3D
 
             if (loginSuccessful)
             {
-                MessageBox.Show("Login successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show("Login successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 ClearFields();
                 // Закрыть окно авторизации и открыть главное окно или другую часть вашего приложения
-                
+                LoginButton();
             }
             else
             {
@@ -80,6 +80,29 @@ namespace ProjPL3D
             emailOrUsernameTextBox.Clear();
             passwordBox.Clear();
             errorMessageTextBlock.Text = string.Empty;
+        }
+
+        private void LoginButton()
+        {
+            // Навигация на страницу авторизации
+            Page currentPage = NavigationService?.Content as Page;
+
+            // Создаем новую страницу (RegistrationPage)
+            ProjectsListPage projectListPage = new ProjectsListPage();
+            NavigationService?.RemoveBackEntry();
+            // Устанавливаем новую страницу в качестве содержимого
+            NavigationService.Navigate(projectListPage);
+           
+
+            // Если предыдущая страница была получена успешно и ее контент не равен null
+            if (currentPage != null && currentPage.Content != null)
+            {
+                // Очищаем контент предыдущей страницы
+                currentPage.Content = null;
+
+                // Удаляем навигацию со страницы, чтобы освободить ресурсы
+                currentPage = null;
+            }
         }
     }
 }

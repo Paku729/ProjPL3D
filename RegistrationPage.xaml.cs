@@ -60,7 +60,7 @@ namespace ProjPL3D
             // Регистрация пользователя
             // Здесь вы можете добавить логику для регистрации пользователя в системе
 
-            MessageBox.Show("Registration successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            //MessageBox.Show("Registration successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             ClearFields();
         }
 
@@ -81,9 +81,24 @@ namespace ProjPL3D
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             // Навигация на страницу авторизации
-            Frame frame = new Frame();
-            frame.NavigationService.Navigate(new LoginPage());
-            this.Content = frame;
+            Page currentPage = NavigationService?.Content as Page;
+
+            // Создаем новую страницу (RegistrationPage)
+            LoginPage logintPage = new LoginPage();
+
+            // Устанавливаем новую страницу в качестве содержимого
+            NavigationService.Navigate(logintPage);
+            NavigationService?.RemoveBackEntry();
+
+            // Если предыдущая страница была получена успешно и ее контент не равен null
+            if (currentPage != null && currentPage.Content != null)
+            {
+                // Очищаем контент предыдущей страницы
+                currentPage.Content = null;
+
+                // Удаляем навигацию со страницы, чтобы освободить ресурсы
+                currentPage = null;
+            }
         }
 
         private bool IsValidEmail(string email)
