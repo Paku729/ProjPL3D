@@ -34,3 +34,5 @@ D:\Study\ProjPL3D\obj\Debug\LoginPage.g.cs
 D:\Study\ProjPL3D\obj\Debug\LoginPage.baml
 D:\Study\ProjPL3D\obj\Debug\ProjectsListPage.g.cs
 D:\Study\ProjPL3D\obj\Debug\ProjectsListPage.baml
+D:\Study\ProjPL3D\obj\Debug\ProjectWindow.g.cs
+D:\Study\ProjPL3D\obj\Debug\ProjectWindow.baml

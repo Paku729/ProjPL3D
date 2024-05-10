@@ -89,10 +89,10 @@ namespace ProjPL3D
             if (projectsListBox.SelectedItem != null)
             {
                 // Открываем новое окно на весь экран
-                Window newWindow = new Window();
+                Window newWindow = new ProjectWindow();
                 newWindow.WindowState = WindowState.Maximized; // Открываем на весь экран
-                newWindow.Title = projectsListBox.SelectedItem.ToString();
-                newWindow.Show();
+                newWindow.Title = "ProjectPL3D   " + projectsListBox.SelectedItem.ToString();
+                newWindow.Show(); 
 
                 // Закрываем текущее окно
                 Window parentWindow = Window.GetWindow(this);

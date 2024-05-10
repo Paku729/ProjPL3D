@@ -1,0 +1,67 @@
+﻿<Window x:Class="ProjPL3D.ProjectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjPL3D"
+        mc:Ignorable="d"
+        Title="ProjectWindow" Height="450" Width="800">
+    <Grid>
+        <!-- Header -->
+        <StackPanel>
+            <Grid Height="50" Background="LightGray">
+                <Button Content="Выход" HorizontalAlignment="Right" Margin="10" Click="ExitButton_Click"/>
+                <Button Content="Пригласить" HorizontalAlignment="Left" Margin="10"/>
+            </Grid>
+        </StackPanel>
+
+
+
+        <!-- Body -->
+        <Grid Margin="10,60,10,10">
+            <!-- Left Column -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Scene List and Calendar -->
+            <Grid x:Name="panelGrid" Visibility="Collapsed" HorizontalAlignment="Left" Height="100" Margin="50,200,0,0" VerticalAlignment="Top" Width="300">
+                <TextBox x:Name="sceneNameTextBox" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+                <Button Content="Создать" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="215,10,0,0" Click="CreateButton_Click"/>
+            </Grid>
+            <StackPanel Grid.Column="0" Margin="10,0,0,0">
+                <Button Content="+" Click="AddSceneButton_Click" Width="25"/>
+                <ListBox x:Name="sceneListBox" SelectionChanged="SceneListBox_SelectionChanged" Height="100">
+                    <!-- Список сцен -->
+                </ListBox>
+            </StackPanel>
+            <StackPanel Margin="0,159,0,-159">
+                <TextBlock Text="Календарь" FontWeight="Bold" Margin="0,10,0,5"/>
+                <Calendar/>
+            </StackPanel>
+
+            <!-- Center Column -->
+            <Grid Grid.Column="1">
+                <Viewport3D>
+                    <!-- 3D Scene -->
+                </Viewport3D>
+                <Button Content="Добавить объект" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="125,0,0,15"/>
+                <Button Content="Редактировать объект" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="295,0,0,15"/>
+                <Button Content="Удалить объект" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,15"/>
+            </Grid>
+
+            <!-- Right Column -->
+            <StackPanel Grid.Column="2" Margin="10,0,0,0">
+                <TextBlock Text="Список пометок" FontWeight="Bold" Margin="0,0,0,5"/>
+                <ListBox>
+                    <!-- Список пометок -->
+                </ListBox>
+                <Button Content="Добавить пометку" Margin="0,10,0,0"/>
+                <Button Content="Редактировать пометку" Margin="0,5,0,0"/>
+                <Button Content="Удалить пометку" Margin="0,5,0,0"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

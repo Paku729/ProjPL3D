@@ -3,20 +3,16 @@
   "WorkspaceRootPath": "D:\\Study\\ProjPL3D\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|d:\\study\\projpl3d\\projectslistpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|solutionrelative:projectslistpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|d:\\study\\projpl3d\\projectwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|solutionrelative:projectwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|d:\\study\\projpl3d\\projectwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|solutionrelative:projectwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|d:\\study\\projpl3d\\projectslistpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|solutionrelative:projectslistpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|D:\\Study\\ProjPL3D\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|solutionrelative:loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|d:\\study\\projpl3d\\registrationpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|solutionrelative:registrationpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -34,53 +30,39 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ProjectsListPage.xaml.cs",
-              "DocumentMoniker": "D:\\Study\\ProjPL3D\\ProjectsListPage.xaml.cs",
-              "RelativeDocumentMoniker": "ProjectsListPage.xaml.cs",
-              "ToolTip": "D:\\Study\\ProjPL3D\\ProjectsListPage.xaml.cs",
-              "RelativeToolTip": "ProjectsListPage.xaml.cs",
-              "ViewState": "AQIAADcAAAAAAAAAAADwv1QAAAANAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-10T10:01:18.68Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ProjectsListPage.xaml",
               "DocumentMoniker": "D:\\Study\\ProjPL3D\\ProjectsListPage.xaml",
               "RelativeDocumentMoniker": "ProjectsListPage.xaml",
               "ToolTip": "D:\\Study\\ProjPL3D\\ProjectsListPage.xaml",
               "RelativeToolTip": "ProjectsListPage.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-05-10T10:01:07.923Z",
+              "WhenOpened": "2024-05-10T19:22:26.38Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "RegistrationPage.xaml.cs",
-              "DocumentMoniker": "D:\\Study\\ProjPL3D\\RegistrationPage.xaml.cs",
-              "RelativeDocumentMoniker": "RegistrationPage.xaml.cs",
-              "ToolTip": "D:\\Study\\ProjPL3D\\RegistrationPage.xaml.cs",
-              "RelativeToolTip": "RegistrationPage.xaml.cs",
-              "ViewState": "AQIAADAAAAAAAAAAAAAowGUAAAAJAAAA",
+              "DocumentIndex": 1,
+              "Title": "ProjectWindow.xaml.cs",
+              "DocumentMoniker": "D:\\Study\\ProjPL3D\\ProjectWindow.xaml.cs",
+              "RelativeDocumentMoniker": "ProjectWindow.xaml.cs",
+              "ToolTip": "D:\\Study\\ProjPL3D\\ProjectWindow.xaml.cs",
+              "RelativeToolTip": "ProjectWindow.xaml.cs",
+              "ViewState": "AQIAAB0AAAAAAAAAAADwvzcAAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-10T09:53:45.999Z",
+              "WhenOpened": "2024-05-10T16:59:21.441Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "LoginPage.xaml.cs",
-              "DocumentMoniker": "D:\\Study\\ProjPL3D\\LoginPage.xaml.cs",
-              "RelativeDocumentMoniker": "LoginPage.xaml.cs",
-              "ToolTip": "D:\\Study\\ProjPL3D\\LoginPage.xaml.cs",
-              "RelativeToolTip": "LoginPage.xaml.cs",
-              "ViewState": "AQIAAEgAAAAAAAAAAAAkwFsAAAAxAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-07T07:58:50.572Z",
+              "DocumentIndex": 0,
+              "Title": "ProjectWindow.xaml",
+              "DocumentMoniker": "D:\\Study\\ProjPL3D\\ProjectWindow.xaml",
+              "RelativeDocumentMoniker": "ProjectWindow.xaml",
+              "ToolTip": "D:\\Study\\ProjPL3D\\ProjectWindow.xaml",
+              "RelativeToolTip": "ProjectWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-05-10T15:03:56.915Z",
               "EditorCaption": ""
             }
           ]

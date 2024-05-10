@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjPL3D"
         mc:Ignorable="d"
-        Title="ProjPL3D" Height="450" Width="800">
+        Title="ProjPL3D HUB" Height="450" Width="800">
     <Grid>
         <Frame x:Name="mainFrame"/>
     </Grid>
