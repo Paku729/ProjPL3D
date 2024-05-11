@@ -3,16 +3,23 @@
   "WorkspaceRootPath": "D:\\Study\\ProjPL3D\\",
   "Documents": [
     {
+<<<<<<< HEAD
+      "AbsoluteMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|D:\\Study\\ProjPL3D\\projectwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+=======
       "AbsoluteMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|d:\\study\\projpl3d\\projectwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+>>>>>>> parent of 87461fb (added 3D scene)
       "RelativeMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|solutionrelative:projectwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|d:\\study\\projpl3d\\projectwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|solutionrelative:projectwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+<<<<<<< HEAD
+=======
     },
     {
       "AbsoluteMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|d:\\study\\projpl3d\\projectslistpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{26102288-BB30-4349-9031-384786622A7D}|ProjPL3D.csproj|solutionrelative:projectslistpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+>>>>>>> parent of 87461fb (added 3D scene)
     }
   ],
   "DocumentGroupContainers": [
@@ -30,6 +37,8 @@
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
+=======
               "DocumentIndex": 2,
               "Title": "ProjectsListPage.xaml",
               "DocumentMoniker": "D:\\Study\\ProjPL3D\\ProjectsListPage.xaml",
@@ -42,13 +51,18 @@
             },
             {
               "$type": "Document",
+>>>>>>> parent of 87461fb (added 3D scene)
               "DocumentIndex": 1,
               "Title": "ProjectWindow.xaml.cs",
               "DocumentMoniker": "D:\\Study\\ProjPL3D\\ProjectWindow.xaml.cs",
               "RelativeDocumentMoniker": "ProjectWindow.xaml.cs",
               "ToolTip": "D:\\Study\\ProjPL3D\\ProjectWindow.xaml.cs",
               "RelativeToolTip": "ProjectWindow.xaml.cs",
+<<<<<<< HEAD
+              "ViewState": "AQIAAFAAAAAAAAAAAADwv1cAAAAhAAAA",
+=======
               "ViewState": "AQIAAB0AAAAAAAAAAADwvzcAAAAsAAAA",
+>>>>>>> parent of 87461fb (added 3D scene)
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-10T16:59:21.441Z",
               "EditorCaption": ""

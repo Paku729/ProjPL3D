@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<<<<<<< HEAD
+  <Import Project="packages\chromiumembeddedframework.runtime.win-x86.124.3.5\build\chromiumembeddedframework.runtime.win-x86.props" Condition="Exists('packages\chromiumembeddedframework.runtime.win-x86.124.3.5\build\chromiumembeddedframework.runtime.win-x86.props')" />
+  <Import Project="packages\chromiumembeddedframework.runtime.win-x64.124.3.5\build\chromiumembeddedframework.runtime.win-x64.props" Condition="Exists('packages\chromiumembeddedframework.runtime.win-x64.124.3.5\build\chromiumembeddedframework.runtime.win-x64.props')" />
+=======
+>>>>>>> parent of 87461fb (added 3D scene)
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -123,4 +128,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+<<<<<<< HEAD
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\chromiumembeddedframework.runtime.win-x64.124.3.5\build\chromiumembeddedframework.runtime.win-x64.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\chromiumembeddedframework.runtime.win-x64.124.3.5\build\chromiumembeddedframework.runtime.win-x64.props'))" />
+    <Error Condition="!Exists('packages\chromiumembeddedframework.runtime.win-x86.124.3.5\build\chromiumembeddedframework.runtime.win-x86.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\chromiumembeddedframework.runtime.win-x86.124.3.5\build\chromiumembeddedframework.runtime.win-x86.props'))" />
+  </Target>
+=======
+>>>>>>> parent of 87461fb (added 3D scene)
 </Project>
