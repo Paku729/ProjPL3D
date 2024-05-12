@@ -1,6 +1,9 @@
-﻿using Microsoft.Win32;
+﻿using HelixToolkit.Wpf;
+using Microsoft.Win32;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +14,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
@@ -21,10 +25,144 @@ namespace ProjPL3D
     /// </summary>
     public partial class ProjectWindow : Window
     {
+
+        private bool _isMouseCaptured;
+        private Point _lastMousePos;
+      
+        private PerspectiveCamera _camera;
+
         public ProjectWindow()
         {
             InitializeComponent();
+            _camera = new PerspectiveCamera(new Point3D(0, 0, 5), new Vector3D(0, 0, -1), new Vector3D(0, 1, 0), 45);
+            viewport.Camera = _camera;
         }
+
+        // Создаем новую камеру и устанавливаем ее для Viewport3D
+
+
+        private void viewport_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                _lastMousePos = e.GetPosition(viewport);
+                _isMouseCaptured = true;
+                Mouse.OverrideCursor = Cursors.SizeAll;
+            }
+            else if (Keyboard.IsKeyDown(Key.LeftAlt) && e.LeftButton == MouseButtonState.Pressed)
+            {
+                _lastMousePos = e.GetPosition(viewport);
+                _isMouseCaptured = true;
+                Mouse.OverrideCursor = Cursors.Hand;
+            }
+        }
+
+        private void viewport_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_isMouseCaptured)
+            {
+                Point currentPos = e.GetPosition(viewport);
+                Vector moveVector = currentPos - _lastMousePos;
+
+                if (e.RightButton == MouseButtonState.Pressed)
+                {
+                    // Вращение камеры вокруг сцены (перемещение мыши с нажатой ПКМ)
+                    RotateCamera(moveVector.X, moveVector.Y);
+                }
+                else if (e.LeftButton == MouseButtonState.Pressed && Keyboard.IsKeyDown(Key.LeftAlt))
+                {
+                    // Перемещение камеры вдоль экрана (перемещение мыши с нажатой левой кнопкой и Alt)
+                    MoveCamera(moveVector.X, moveVector.Y);
+                }
+
+                _lastMousePos = currentPos;
+            }
+        }
+
+        private void viewport_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            _isMouseCaptured = false;
+            Mouse.OverrideCursor = Cursors.Arrow;
+        }
+
+        private void viewport_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            // Масштабирование сцены (используя колесо мыши)
+            double scaleFactor = e.Delta > 0 ? 1.1 : 0.9;
+            ScaleCamera(scaleFactor);
+        }
+
+
+        private void MoveCamera(double deltaX, double deltaY)
+        {
+            // Получаем текущее направление обзора камеры
+            Vector3D cameraDirection = (Vector3D)(_camera.LookDirection - _camera.Position);
+
+            // Нормализуем вектор направления камеры
+            cameraDirection.Normalize();
+
+            // Определяем вектор вверх относительно камеры
+            Vector3D cameraUp = Vector3D.CrossProduct(cameraDirection, new Vector3D(1, 0, 0));
+
+            // Нормализуем вектор вверх
+            cameraUp.Normalize();
+
+            // Двигаем камеру вдоль плоскости, перпендикулярной направлению камеры
+            _camera.Position += cameraUp * deltaY;
+        }
+
+
+        private void RotateCamera(double deltaX, double deltaY)
+        {
+            // Получаем текущее направление обзора камеры
+            Vector3D cameraDirection = (Vector3D)(_camera.LookDirection - _camera.Position);
+
+            // Нормализуем вектор направления камеры
+            cameraDirection.Normalize();
+
+            // Определяем вектор вправо относительно камеры (путем векторного произведения с вектором "вверх")
+            Vector3D cameraRight = Vector3D.CrossProduct(cameraDirection, new Vector3D(0, 1, 0));
+
+            // Нормализуем вектор вправо
+            cameraRight.Normalize();
+
+            // Двигаем камеру по контуру сферы (движение вправо)
+            _camera.Position += cameraRight * deltaX;
+
+            // Определяем вектор вверх относительно камеры
+            Vector3D cameraUp = Vector3D.CrossProduct(cameraRight, cameraDirection);
+
+            // Нормализуем вектор вверх
+            cameraUp.Normalize();
+
+            // Двигаем камеру вверх или вниз (движение вверх)
+            _camera.Position += cameraUp * deltaY;
+        }
+        private void ScaleCamera(double scaleFactor)
+        {
+            // Масштабирование камеры
+            double minDistance = 1;
+            double maxDistance = 100;
+
+            // Определяем направление обзора камеры
+            Vector3D cameraDirection = (Vector3D)(_camera.LookDirection - _camera.Position);
+
+            double currentDistance = cameraDirection.Length;
+
+            double newDistance = currentDistance * scaleFactor;
+
+            // Ограничиваем новое расстояние
+            newDistance = Math.Max(minDistance, Math.Min(maxDistance, newDistance));
+
+            // Нормализуем направляющий вектор камеры и умножаем его на новое расстояние
+            Vector3D normalizedDirection = cameraDirection;
+            normalizedDirection.Normalize();
+            Vector3D offset = normalizedDirection * (newDistance - currentDistance);
+
+            // Добавляем смещение к позиции камеры
+            _camera.Position += offset;
+        }
+
 
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -76,6 +214,72 @@ namespace ProjPL3D
                 MessageBox.Show($"Открыта сцена: {selectedScene}");
             }
         }
-    }   
+        private void AddSphereButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Sphere sphere = new Sphere();
+            //sphere.AddToScene(viewport);
+        }
+
+
+
+        //private void AddPyramidButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //Pyramid pyramid = new Pyramid();
+        //    //pyramid.AddToScene(viewport);
+        //}
+
+        private void AddCubeButton_Click(object sender, RoutedEventArgs e)
+        {
+            ModelVisual3D cube = new ModelVisual3D();
+            MeshGeometry3D mesh = new MeshGeometry3D();
+            mesh.Positions.Add(new Point3D(0, 0, 0));
+            mesh.Positions.Add(new Point3D(1, 0, 0));
+            mesh.Positions.Add(new Point3D(1, 1, 0));
+            mesh.Positions.Add(new Point3D(0, 1, 0));
+            mesh.Positions.Add(new Point3D(0, 0, 1));
+            mesh.Positions.Add(new Point3D(1, 0, 1));
+            mesh.Positions.Add(new Point3D(1, 1, 1));
+            mesh.Positions.Add(new Point3D(0, 1, 1));
+            mesh.TriangleIndices.Add(0);
+            mesh.TriangleIndices.Add(1);
+            mesh.TriangleIndices.Add(2);
+            mesh.TriangleIndices.Add(0);
+            mesh.TriangleIndices.Add(2);
+            mesh.TriangleIndices.Add(3);
+            mesh.TriangleIndices.Add(0);
+            mesh.TriangleIndices.Add(1);
+            mesh.TriangleIndices.Add(5);
+            mesh.TriangleIndices.Add(0);
+            mesh.TriangleIndices.Add(5);
+            mesh.TriangleIndices.Add(4);
+            mesh.TriangleIndices.Add(1);
+            mesh.TriangleIndices.Add(2);
+            mesh.TriangleIndices.Add(6);
+            mesh.TriangleIndices.Add(1);
+            mesh.TriangleIndices.Add(6);
+            mesh.TriangleIndices.Add(5);
+            mesh.TriangleIndices.Add(2);
+            mesh.TriangleIndices.Add(3);
+            mesh.TriangleIndices.Add(7);
+            mesh.TriangleIndices.Add(2);
+            mesh.TriangleIndices.Add(7);
+            mesh.TriangleIndices.Add(6);
+            mesh.TriangleIndices.Add(3);
+            mesh.TriangleIndices.Add(0);
+            mesh.TriangleIndices.Add(4);
+            mesh.TriangleIndices.Add(3);
+            mesh.TriangleIndices.Add(4);
+            mesh.TriangleIndices.Add(7);
+            mesh.TriangleIndices.Add(4);
+            mesh.TriangleIndices.Add(5);
+            mesh.TriangleIndices.Add(6);
+            mesh.TriangleIndices.Add(4);
+            mesh.TriangleIndices.Add(6);
+            mesh.TriangleIndices.Add(7);
+            cube.Content = new GeometryModel3D(mesh, new DiffuseMaterial(Brushes.Red));
+            viewport.Children.Add(cube);
+        }
+
+    }
 
 }

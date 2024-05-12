@@ -36,3 +36,6 @@ D:\Study\ProjPL3D\obj\Debug\ProjectsListPage.g.cs
 D:\Study\ProjPL3D\obj\Debug\ProjectsListPage.baml
 D:\Study\ProjPL3D\obj\Debug\ProjectWindow.g.cs
 D:\Study\ProjPL3D\obj\Debug\ProjectWindow.baml
+D:\Study\ProjPL3D\bin\Debug\HelixToolkit.Wpf.dll
+D:\Study\ProjPL3D\bin\Debug\HelixToolkit.Wpf.xml
+D:\Study\ProjPL3D\obj\Debug\ProjPL3D.csproj.Up2Date
