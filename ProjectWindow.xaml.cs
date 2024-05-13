@@ -5,18 +5,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Input;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 
 namespace ProjPL3D
 {
@@ -24,18 +25,19 @@ namespace ProjPL3D
     /// Логика взаимодействия для ProjectWindow.xaml
     /// </summary>
     /// 
-  
+
     public partial class ProjectWindow : Window
     {
 
         private bool _isMouseCaptured;
         private Point _lastMousePos;
-      
-        private PerspectiveCamera _camera;
-        private ModelUIElement3D selectedModel;
-      
 
-        private Dictionary<ModelUIElement3D, Material> originalMaterials = new Dictionary<ModelUIElement3D, Material>();
+        private PerspectiveCamera _camera;
+
+    
+        private ModelVisual3D selectedModel;
+      
+        private List<ArrowVisual3D> axisArrows = new List<ArrowVisual3D>();
 
         public ProjectWindow()
         {
@@ -46,7 +48,7 @@ namespace ProjPL3D
 
         }
 
-       
+
         private void viewport_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.RightButton == MouseButtonState.Pressed)
@@ -85,7 +87,7 @@ namespace ProjPL3D
 
             }
         }
-    
+
 
         private void viewport_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -171,78 +173,153 @@ namespace ProjPL3D
             _camera.Position += offset;
         }
 
-        private void ModelMouseDown(object sender, MouseButtonEventArgs e)
+
+        private void ViewportMouseDown(object sender, MouseButtonEventArgs e)
         {
-            // Проверяем, был ли клик по модели
-            if (sender is ModelUIElement3D clickedModel)
+            if (e.ChangedButton == MouseButton.Left)
             {
-                if (selectedModel != null && selectedModel != clickedModel)
-                {
-                    // Сбрасываем выделение предыдущего объекта
-                    if (originalMaterials.TryGetValue(selectedModel, out Material originalMaterial))
-                    {
-                        if (selectedModel.Model is GeometryModel3D existingGeometryModel)
-                        {
-                            existingGeometryModel.Material = originalMaterial;
-                            originalMaterials.Remove(selectedModel);
-                        }
-                    }
-                }
+                var source = (HelixViewport3D)sender;
+                var point = e.GetPosition(source);
+                var hitResult = VisualTreeHelper.HitTest(source, point);
 
-                // Выделяем новый объект
-                selectedModel = clickedModel;
-
-                if (!originalMaterials.ContainsKey(selectedModel))
+                if (hitResult.VisualHit is ModelVisual3D model)
                 {
-                    // Сохраняем оригинальный материал текущей модели
-                    if (selectedModel.Model is GeometryModel3D newGeometryModel)
-                    {
-                        originalMaterials[selectedModel] = newGeometryModel.Material.Clone();
-                    }
+                    SelectModel(model);
                 }
-
-                // Меняем материал модели на зеленый
-                if (selectedModel.Model is GeometryModel3D geometryModel)
+                else
                 {
-                    geometryModel.Material = new DiffuseMaterial(Brushes.Green);
-                }
-            }
-            else
-            {
-                // Сбрасываем выделение, если клик был не по объекту
-                if (selectedModel != null)
-                {
-                    if (originalMaterials.TryGetValue(selectedModel, out Material originalMaterial))
-                    {
-                        if (selectedModel.Model is GeometryModel3D existingGeometryModel)
-                        {
-                            existingGeometryModel.Material = originalMaterial;
-                            originalMaterials.Remove(selectedModel);
-                        }
-                    }
-                    selectedModel = null;
+                    DeselectModel();
                 }
             }
         }
 
-        private void ViewportMouseDown(object sender, MouseButtonEventArgs e)
+   
+
+        // Выделение модели
+        private void SelectModel(ModelVisual3D model)
         {
-            if (e.Source == viewport)
+            DeselectModel(); // Снимаем выделение с предыдущего объекта
+
+            // Отображаем осевые стрелки
+            ShowAxisArrows(model);
+
+            // Меняем цвет модели
+            var brush = new SolidColorBrush(Colors.Green);
+            ApplyColorToModel(model, brush);
+
+            // Запоминаем выделенную модель
+            selectedModel = model;
+        }
+
+
+        // Снятие выделения с модели
+        private void DeselectModel()
+        {
+            if (selectedModel != null)
             {
-                // Сбрасываем выделение при клике по сцене (не на объекте)
-                if (selectedModel != null)
+                // Убираем стрелки осей координат
+                RemoveAxisArrows();
+
+                // Возвращаем предыдущей модели исходный цвет
+                var brush = new SolidColorBrush(Colors.Gray);
+                ApplyColorToModel(selectedModel, brush);
+                selectedModel = null;
+            }
+        }
+
+
+
+        // Применение цвета к модели
+        private void ApplyColorToModel(ModelVisual3D model, Brush color)
+        {
+            var material = new DiffuseMaterial(color);
+            if (model.Content is GeometryModel3D geometryModel)
+            {
+                geometryModel.Material = material;
+            }
+            else if (model.Content is Model3DGroup modelGroup)
+            {
+                foreach (var child in modelGroup.Children)
                 {
-                    if (originalMaterials.TryGetValue(selectedModel, out Material originalMaterial))
+                    if (child is GeometryModel3D childGeometryModel)
                     {
-                        if (selectedModel.Model is GeometryModel3D existingGeometryModel)
-                        {
-                            existingGeometryModel.Material = originalMaterial;
-                            originalMaterials.Remove(selectedModel);
-                        }
+                        childGeometryModel.Material = material;
                     }
-                    selectedModel = null;
                 }
             }
+        }
+
+        private void Viewport3D_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Проверяем, был ли клик по модели
+            var source = (Viewport3D)sender;
+            var point = e.GetPosition(source);
+            var hitResult = VisualTreeHelper.HitTest(source, point);
+            if (hitResult.VisualHit is ModelVisual3D model)
+            {
+                SelectModel(model); // Выделяем модель
+            }
+            else
+            {
+                DeselectModel(); // Снимаем выделение, если клик был не по модели
+            }
+        }
+
+        private void ShowAxisArrows(ModelVisual3D model)
+        {
+            // Убираем предыдущие стрелки
+            RemoveAxisArrows();
+
+            // Получаем центр объекта
+            var bounds = model.Content.Bounds;
+            var center = new Point3D(bounds.X + bounds.SizeX / 2, bounds.Y + bounds.SizeY / 2, bounds.Z + bounds.SizeZ / 2);
+
+            // Создаем стрелки осей координат
+            var xAxisArrow = new ArrowVisual3D
+            {
+                Direction = new Vector3D(1, 0, 0),
+                Diameter = 0.1,
+                Point1 = center,
+                Point2 = new Point3D(center.X + 2, center.Y, center.Z),
+                Fill = Brushes.Red
+            };
+
+            var yAxisArrow = new ArrowVisual3D
+            {
+                Direction = new Vector3D(0, 1, 0),
+                Diameter = 0.1,
+                Point1 = center,
+                Point2 = new Point3D(center.X, center.Y + 2, center.Z),
+                Fill = Brushes.Green
+            };
+
+            var zAxisArrow = new ArrowVisual3D
+            {
+                Direction = new Vector3D(0, 0, 1),
+                Diameter = 0.1,
+                Point1 = center,
+                Point2 = new Point3D(center.X, center.Y, center.Z + 2),
+                Fill = Brushes.Blue
+            };
+
+            // Добавляем стрелки в сцену
+            viewport.Children.Add(xAxisArrow);
+            viewport.Children.Add(yAxisArrow);
+            viewport.Children.Add(zAxisArrow);
+
+            // Сохраняем ссылки на стрелки для последующего удаления
+            axisArrows.Add(xAxisArrow);
+            axisArrows.Add(yAxisArrow);
+            axisArrows.Add(zAxisArrow);
+        }
+
+        private void RemoveAxisArrows()
+        {
+            foreach (var arrow in axisArrows)
+            {
+                viewport.Children.Remove(arrow);
+            }
+            axisArrows.Clear();
         }
 
 
@@ -340,13 +417,10 @@ namespace ProjPL3D
 
             //viewport.Children.Add(cube);
 
-            ModelUIElement3D pyramidUIElement = new ModelUIElement3D { Model = pyramid.Content };
-
-            // Добавление обработчика события MouseDown
-            pyramidUIElement.MouseDown += ModelMouseDown;
+            
 
             // Добавление куба на сцену 
-            viewport.Children.Add(pyramidUIElement);
+            viewport.Children.Add(pyramid);
         }
 
         private void AddCubeButton_Click(object sender, RoutedEventArgs e)
@@ -404,13 +478,11 @@ namespace ProjPL3D
 
             //viewport.Children.Add(cube);
 
-            ModelUIElement3D cubeUIElement = new ModelUIElement3D { Model = cube.Content };
+           
 
-            // Добавление обработчика события MouseDown
-            cubeUIElement.MouseDown += ModelMouseDown;
-
+         
             // Добавление куба на сцену 
-            viewport.Children.Add(cubeUIElement);
+            viewport.Children.Add(cube);
         }
    
     }
