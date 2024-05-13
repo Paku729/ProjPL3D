@@ -23,6 +23,8 @@ namespace ProjPL3D
     /// <summary>
     /// Логика взаимодействия для ProjectWindow.xaml
     /// </summary>
+    /// 
+  
     public partial class ProjectWindow : Window
     {
 
@@ -30,17 +32,21 @@ namespace ProjPL3D
         private Point _lastMousePos;
       
         private PerspectiveCamera _camera;
+        private ModelUIElement3D selectedModel;
+      
+
+        private Dictionary<ModelUIElement3D, Material> originalMaterials = new Dictionary<ModelUIElement3D, Material>();
 
         public ProjectWindow()
         {
             InitializeComponent();
             _camera = new PerspectiveCamera(new Point3D(0, 0, 5), new Vector3D(0, 0, -1), new Vector3D(0, 1, 0), 45);
             viewport.Camera = _camera;
+            viewport.MouseDown += ViewportMouseDown;
+
         }
 
-        // Создаем новую камеру и устанавливаем ее для Viewport3D
-
-
+       
         private void viewport_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.RightButton == MouseButtonState.Pressed)
@@ -76,8 +82,10 @@ namespace ProjPL3D
                 }
 
                 _lastMousePos = currentPos;
+
             }
         }
+    
 
         private void viewport_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -163,6 +171,79 @@ namespace ProjPL3D
             _camera.Position += offset;
         }
 
+        private void ModelMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Проверяем, был ли клик по модели
+            if (sender is ModelUIElement3D clickedModel)
+            {
+                if (selectedModel != null && selectedModel != clickedModel)
+                {
+                    // Сбрасываем выделение предыдущего объекта
+                    if (originalMaterials.TryGetValue(selectedModel, out Material originalMaterial))
+                    {
+                        if (selectedModel.Model is GeometryModel3D existingGeometryModel)
+                        {
+                            existingGeometryModel.Material = originalMaterial;
+                            originalMaterials.Remove(selectedModel);
+                        }
+                    }
+                }
+
+                // Выделяем новый объект
+                selectedModel = clickedModel;
+
+                if (!originalMaterials.ContainsKey(selectedModel))
+                {
+                    // Сохраняем оригинальный материал текущей модели
+                    if (selectedModel.Model is GeometryModel3D newGeometryModel)
+                    {
+                        originalMaterials[selectedModel] = newGeometryModel.Material.Clone();
+                    }
+                }
+
+                // Меняем материал модели на зеленый
+                if (selectedModel.Model is GeometryModel3D geometryModel)
+                {
+                    geometryModel.Material = new DiffuseMaterial(Brushes.Green);
+                }
+            }
+            else
+            {
+                // Сбрасываем выделение, если клик был не по объекту
+                if (selectedModel != null)
+                {
+                    if (originalMaterials.TryGetValue(selectedModel, out Material originalMaterial))
+                    {
+                        if (selectedModel.Model is GeometryModel3D existingGeometryModel)
+                        {
+                            existingGeometryModel.Material = originalMaterial;
+                            originalMaterials.Remove(selectedModel);
+                        }
+                    }
+                    selectedModel = null;
+                }
+            }
+        }
+
+        private void ViewportMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.Source == viewport)
+            {
+                // Сбрасываем выделение при клике по сцене (не на объекте)
+                if (selectedModel != null)
+                {
+                    if (originalMaterials.TryGetValue(selectedModel, out Material originalMaterial))
+                    {
+                        if (selectedModel.Model is GeometryModel3D existingGeometryModel)
+                        {
+                            existingGeometryModel.Material = originalMaterial;
+                            originalMaterials.Remove(selectedModel);
+                        }
+                    }
+                    selectedModel = null;
+                }
+            }
+        }
 
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -216,21 +297,62 @@ namespace ProjPL3D
         }
         private void AddSphereButton_Click(object sender, RoutedEventArgs e)
         {
-            //Sphere sphere = new Sphere();
-            //sphere.AddToScene(viewport);
+            MeshGeometry3D mesh = new MeshGeometry3D();
+            mesh.Positions.Add(new Point3D(0, 0, 0)); // Центр сферы
+            mesh.TriangleIndices.Add(0);
         }
 
 
 
-        //private void AddPyramidButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //Pyramid pyramid = new Pyramid();
-        //    //pyramid.AddToScene(viewport);
-        //}
+        private void AddPyramidButton_Click(object sender, RoutedEventArgs e)
+        {
+            ModelVisual3D pyramid = new ModelVisual3D();
+            MeshGeometry3D mesh = new MeshGeometry3D();
+            mesh.Positions.Add(new Point3D(0, 0, 0)); // Вершины пирамиды
+            mesh.Positions.Add(new Point3D(-0.5, -0.5, 0.5));
+            mesh.Positions.Add(new Point3D(0.5, -0.5, 0.5));
+            mesh.Positions.Add(new Point3D(0.5, 0.5, 0.5));
+            mesh.Positions.Add(new Point3D(-0.5, 0.5, 0.5));
+
+            mesh.TriangleIndices.Add(0); // Грани пирамиды
+            mesh.TriangleIndices.Add(1);
+            mesh.TriangleIndices.Add(2);
+            mesh.TriangleIndices.Add(0);
+            mesh.TriangleIndices.Add(2);
+            mesh.TriangleIndices.Add(3);
+            mesh.TriangleIndices.Add(0);
+            mesh.TriangleIndices.Add(3);
+            mesh.TriangleIndices.Add(4);
+            mesh.TriangleIndices.Add(0);
+            mesh.TriangleIndices.Add(4);
+            mesh.TriangleIndices.Add(1);
+            mesh.TriangleIndices.Add(1);
+            mesh.TriangleIndices.Add(2);
+            mesh.TriangleIndices.Add(3);
+            mesh.TriangleIndices.Add(3);
+            mesh.TriangleIndices.Add(4);
+            mesh.TriangleIndices.Add(1);
+
+            // Создание модели пирамиды
+            pyramid.Content = new GeometryModel3D(mesh, new DiffuseMaterial(Brushes.Black));
+            //viewport.Children.Add(pyramid);
+
+
+            //viewport.Children.Add(cube);
+
+            ModelUIElement3D pyramidUIElement = new ModelUIElement3D { Model = pyramid.Content };
+
+            // Добавление обработчика события MouseDown
+            pyramidUIElement.MouseDown += ModelMouseDown;
+
+            // Добавление куба на сцену 
+            viewport.Children.Add(pyramidUIElement);
+        }
 
         private void AddCubeButton_Click(object sender, RoutedEventArgs e)
         {
             ModelVisual3D cube = new ModelVisual3D();
+            
             MeshGeometry3D mesh = new MeshGeometry3D();
             mesh.Positions.Add(new Point3D(0, 0, 0));
             mesh.Positions.Add(new Point3D(1, 0, 0));
@@ -277,9 +399,21 @@ namespace ProjPL3D
             mesh.TriangleIndices.Add(6);
             mesh.TriangleIndices.Add(7);
             cube.Content = new GeometryModel3D(mesh, new DiffuseMaterial(Brushes.Red));
-            viewport.Children.Add(cube);
+
+
+
+            //viewport.Children.Add(cube);
+
+            ModelUIElement3D cubeUIElement = new ModelUIElement3D { Model = cube.Content };
+
+            // Добавление обработчика события MouseDown
+            cubeUIElement.MouseDown += ModelMouseDown;
+
+            // Добавление куба на сцену 
+            viewport.Children.Add(cubeUIElement);
         }
-
+   
     }
-
 }
+
+

@@ -53,6 +53,9 @@
                     </LinearGradientBrush>
                 </Grid.Background>
                 <HelixToolkit:HelixViewport3D x:Name="viewport" Background="Black">
+                    <ModelUIElement3D>
+                       
+                    </ModelUIElement3D>
                     <!-- Освещение -->
                     <HelixToolkit:SunLight />
 
@@ -87,7 +90,7 @@
                         <StackPanel Grid.Column="1" Margin="20,19,20,0" VerticalAlignment="Top">
                             <!--<Button Content="Добавить шар" Width="88" Margin="0 10" Click="AddSphereButton_Click"/>-->
                             <Button Content="Добавить куб" Width="88" Margin="0 10" Click="AddCubeButton_Click"/>
-                            <!--<Button Content="Добавить пирамиду" Width="88" Margin="0 10" Click="AddPyramidButton_Click"/>-->
+                            <Button Content="Добавить пирамиду" Width="88" Margin="0 10" Click="AddPyramidButton_Click"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
